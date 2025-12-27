@@ -18,7 +18,7 @@ BasicUpstart2(start) // 10 sys$0810
 //.segment Code "Main"
 start: 
 lda #$00
-sta DAY_FLAG
+sta FLAG_DAY
 SetBorderColor(0)
 SetScreenColor(4)
 ClearScreen()
@@ -54,15 +54,15 @@ jsr dashboard
  
 //set time for testing purposes and set alarm also
 SetCIATOD($91,$59,$50)
-lda #%10000000
-sta CIA1_CRB
-SetCIATOD($12,$00,$00)
+//lda #%10000000
+//sta CIA1_CRB
+//SetCIATOD($12,$00,$00)
 //jsr waitKey
 jsr init_irq
 
 main:
-jsr new_day_check           //looks for 12:00am, INC DAY and fires the DAY_FLAG to prevent repeat increments
-jsr reset_day_check_flag    //rearms the DAY_FLAG at 01am hour (once and only once)
+jsr new_day_check           //looks for 12:00am, INC DAY and fires the FLAG_DAY to prevent repeat increments
+jsr reset_day_check_flag    //rearms the FLAG_DAY at 01am hour (once and only once)
 jsr calendar_maintenance    //check for max day in given month and rollover
 DisplayTOD()
 DisplayDate()

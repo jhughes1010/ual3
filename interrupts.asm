@@ -55,9 +55,9 @@ sed
 adc #$01
 sta DAY
 cld
-lda #%00000000
-sta CIA1_CRB
-SetCIATOD($91,$59,$50)
+//lda #%00000000
+//sta CIA1_CRB
+//SetCIATOD($91,$59,$50)
 //-----set cia to generate interrupt
 lda #%10000100
 sta CIA1_ICR

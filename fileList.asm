@@ -34,7 +34,7 @@ y_txt:
 x_txt:
 .byte 0
 
-DAY_FLAG:
+FLAG_DAY:
 .byte 0
 
 FLAG:

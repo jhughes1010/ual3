@@ -105,22 +105,24 @@ rts
 //-----check and increment day if needed
 new_day_check:
 {
-lda DAY_FLAG
+lda FLAG_DAY
 //cmp #$00
 bne end
 lda CIA1_HOUR
 cmp #$12
 bne end
-.break
+//.break
 inc DAY
-inc DAY_FLAG
+inc FLAG_DAY
+//.break
+//SetCIATOD($12,$59,$40)
 end:
 rts
 }
 
 //-----Reset and arm flag for end of day new_day_check
 reset_day_check_flag:
-lda DAY_FLAG
+lda FLAG_DAY
 cmp #$00
 beq end
 lda CIA1_HOUR
@@ -129,7 +131,7 @@ bne end
 //inc DAY
 .break
 lda #$00
-sta DAY_FLAG
+sta FLAG_DAY
 end:
 rts
 
