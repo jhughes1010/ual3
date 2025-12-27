@@ -75,8 +75,8 @@ rts
 continue:
 //-----reinforcement as I think Kernal is clearing this
 //-----set cia to generate interrupt
-lda #%10000100
-sta CIA1_ICR
+//lda #%10000100
+//sta CIA1_ICR
 
 
 jmp main
