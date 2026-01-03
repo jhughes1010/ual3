@@ -25,7 +25,7 @@ ClearScreen()
 PlotXY(12,4)
 OutputText(TITLE)
 
-SetDate($12,$28,$25)
+SetDate($01,$03,$26)
 
 PlotXY(15,23)
 OutputText(PRESSKEY)
@@ -53,7 +53,7 @@ jsr dashboard
 //possible clear dashboard
  
 //set time for testing purposes and set alarm also
-SetCIATOD($91,$59,$50)
+SetCIATOD($06,$33,$50)
 //lda #%10000000
 //sta CIA1_CRB
 //SetCIATOD($12,$00,$00)

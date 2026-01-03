@@ -4,28 +4,30 @@ jsr GETIN
 beq waitKey
 rts
 
+
+//-----dashboard entry points
 dash_update_dtime:
 clc
 lda #<s_start
-adc #$0d
+adc #$0f
 sta S_REC_LOC
-lda #$0e
+lda #$10
 sta x_txt
 jmp top_hdr
 
 dash_update_atime:
 clc
 lda #<s_start
-adc #$13
+adc #$15
 sta S_REC_LOC
-lda #$14
+lda #$16
 sta x_txt
 jmp top_hdr
 
 dash_update_flt:
 clc
 lda #<s_start
-adc #$08
+adc #$00
 sta S_REC_LOC
 lda #$01
 sta x_txt
@@ -34,17 +36,18 @@ jmp top_hdr
 dash_update_arr:
 clc
 lda #<s_start
-adc #$04
+adc #$0b
 sta S_REC_LOC
-lda #$0a
+lda #$0c
 sta x_txt
 jmp top_hdr
 
 
 dash_update_dep:
 lda #<s_start
+adc #$07
 sta S_REC_LOC
-lda #$06
+lda #$08
 sta x_txt
 
 top_hdr:
@@ -56,7 +59,7 @@ lda S_REC_LOC
 sta $02
 lda S_REC_LOC + 1
 sta $03
-ldx #$04
+ldx #$08
 
 top:
 txa

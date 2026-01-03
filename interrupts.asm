@@ -113,3 +113,7 @@ sta $D01A
 
 cli                  //; clear interrupt flag, allowing the CPU to respond to interrupt requests
 rts
+
+
+//-----alternate ISR copy from Kernal, but remove the read of CIA1 ICR $EA31 replace routine
+
