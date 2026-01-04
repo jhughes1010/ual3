@@ -25,7 +25,7 @@ ClearScreen()
 PlotXY(12,4)
 OutputText(TITLE)
 
-SetDate($01,$03,$26)
+SetDate($01,$04,$26)
 
 PlotXY(15,23)
 OutputText(PRESSKEY)

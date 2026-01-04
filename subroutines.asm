@@ -132,7 +132,7 @@ lda CIA1_HOUR
 cmp #$01
 bne end
 //inc DAY
-.break
+//.break
 lda #$00
 sta FLAG_DAY
 end:
