@@ -42,3 +42,14 @@
 .label s_size = $20
 .label s_dep = $04
 .label s_dep_size = $03
+
+
+//special keys
+.label f1 = $85
+.label fn_2 = $86
+.label f3 = $87
+.label f4 = $88
+.label f5 = $89
+.label f6 = $8a
+.label f7 = $8b
+.label f8 = $8c

@@ -67,7 +67,9 @@ jsr calendar_maintenance    //check for max day in given month and rollover
 DisplayTOD()
 DisplayDate()
 
-
+//check for 'f2' key
+jsr GETIN
+cmp #fn_2
 //check for break key
 jsr STOP
 bne continue

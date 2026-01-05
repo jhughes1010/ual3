@@ -2,6 +2,7 @@
 waitKey:
 jsr GETIN
 beq waitKey
+.break
 rts
 
 
@@ -191,5 +192,8 @@ mult40:
         rol result+1  //;RESULT = 40*NUM
         rts
 
+check_f2:
+jsr GETIN
+rts
 
 
