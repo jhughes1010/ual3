@@ -17,12 +17,17 @@ SetBorderColor(3)
 SetScreenColor(6)
 ClearScreen()
 jsr init_comm  // Initialize comm channel
+OutputText(COMM_TITLE)
 delaySec(1)
 jsr clear_buffer
 sendCommMessage(MSG_CONNECT)
+jsr CLRCHN
+OutputText(COMM_TELNET)
 delaySec(4)
 jsr clear_buffer
 sendCommMessage(MSG_DTTM)
+jsr CLRCHN
+OutputText(COMM_DATE)
 delaySec(2)
 jsr clear_buffer
 jsr parse_date_time

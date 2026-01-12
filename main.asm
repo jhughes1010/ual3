@@ -42,7 +42,7 @@ OutputText(LOADAIR)
 
 //LoadFile(3,FILE_AIRPORTS,6,$4000)
 
-SetBorderColor(3)
+SetBorderColor(3) 
 SetScreenColor(0)
 ClearScreen()
 

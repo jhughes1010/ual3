@@ -25,6 +25,19 @@ LOADAIR:
   .text "LOADING AIRPORTS"
    .byte 0
 
+COMM_TITLE:
+  .text "FLUSHING BUFFER"
+  .byte 0
+
+COMM_TELNET:
+  .text "CONNECTING TO TIMESERVER"
+  .byte 0
+
+COMM_DATE:
+  .byte $93
+  .text "RETRIEVING DATE"
+  .byte 0
+
 S_REC_LOC:
     .word 0
 
