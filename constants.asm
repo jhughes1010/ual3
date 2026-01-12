@@ -59,6 +59,12 @@
 .label screenMonth = $0405
 .label screenYear = $0402
 
+//time locations on screen memory
+.label screenHour = $040F
+.label screenMinute = screenHour + 3
+.label screenSecond = screenHour + 6
+
+
 // Kernal routines
 .label CHRIN   = $FFCF         // Input character
 //.label CHROUT  = $FFD2         // Output character

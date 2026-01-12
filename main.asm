@@ -53,13 +53,6 @@ LoadFile(4,FILE_DASHBOARD,8,$0400)
 //update flight details
 jsr dashboard
 //possible clear dashboard
- 
-//set time for testing purposes and set alarm also
-SetCIATOD($06,$33,$50)
-//lda #%10000000
-//sta CIA1_CRB
-//SetCIATOD($12,$00,$00)
-//jsr waitKey
 jsr init_irq
 
 main:

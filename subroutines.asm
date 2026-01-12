@@ -194,5 +194,19 @@ mult40:
 check_f2:
 jsr GETIN
 rts
+setCIATOD:
+{
+   //lda #%10000000
+   //sta CIA1_CRB
+   lda HOUR
+   sta CIA1_HOUR
+   lda MINUTE
+   sta CIA1_MIN
+   lda SECOND
+   sta CIA1_SEC
+   lda #$00
+   sta CIA1_TENTH
+   rts
+}
 
 

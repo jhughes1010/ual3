@@ -20,7 +20,7 @@ jsr init_comm  // Initialize comm channel
 delaySec(1)
 jsr clear_buffer
 sendCommMessage(MSG_CONNECT)
-delaySec(3)
+delaySec(4)
 jsr clear_buffer
 sendCommMessage(MSG_DTTM)
 delaySec(2)
@@ -181,9 +181,16 @@ next:
 rts
 
 parse_date_time:
+//parse date
 getBCDvalue(screenDay,DAY)
 getBCDvalue(screenMonth,MONTH)
 getBCDvalue(screenYear,YEAR)
+
+//parse time
+getBCDvalue(screenHour,HOUR)
+getBCDvalue(screenMinute,MINUTE)
+getBCDvalue(screenSecond,SECOND)
+jsr setCIATOD
 rts
 
 .macro sendCommMessage(message)

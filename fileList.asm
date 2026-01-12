@@ -43,3 +43,13 @@ FLAG:
 //get rid of these!!!!
 .var num = $0000
 .var result = $d969
+
+HOUR:
+.byte 0
+
+MINUTE:
+.byte 0
+
+SECOND:
+.byte 0
+
