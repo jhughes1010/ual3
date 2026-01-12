@@ -1,137 +1,196 @@
-; Commodore 64 RS-232 Dumb Terminal
-; Baud Rate: 300
-; Assembles at $C000
+// Commodore 64 RS-232 Dumb Terminal
+// Baud Rate: 300
+// Assembles at $C000
 
-        *= $C000
 
-; Kernal routines
-CHRIN   = $FFCF         ; Input character
-CHROUT  = $FFD2         ; Output character
-GETIN   = $FFE4         ; Get character from keyboard
-OPEN    = $FFC0         ; Open file
-CLOSE   = $FFC3         ; Close file
-CHKIN   = $FFC6         ; Set input channel
-CHKOUT  = $FFC9         ; Set output channel
-CLRCHN  = $FFCC         ; Clear I/O channels
+// Kernal routines
+.label CHRIN   = $FFCF         // Input character
+//.label CHROUT  = $FFD2         // Output character
+//.label GETIN   = $FFE4         // Get character from keyboard
+.label OPEN    = $FFC0         // Open file
+.label CLOSE   = $FFC3         // Close file
+.label CHKIN   = $FFC6         // Set input channel
+.label CHKOUT  = $FFC9         // Set output channel
+.label CLRCHN  = $FFCC         // Clear I/O channels
+.label CLALL = $ffe7
+//.label SETLFS  = $FFBA
+//.label SETNAM  = $FFBD
 
-; Screen codes
-CLRSCR  = $93           ; Clear screen
-RETURN  = $0D           ; Return key
+.label ctrl_reg = $0293
+.label cmd_reg = $0294
 
-START:
-        jsr INIT_RS232  ; Initialize RS-232
-        jsr MAIN_LOOP   ; Enter main terminal loop
-        rts
+// Screen codes
+.label CLRSCR  = $93           // Clear screen
+.label RETURN  = $0D           // Return key
 
-; Initialize RS-232 channel at 300 baud
-INIT_RS232:
-        lda #$93        ; Clear screen character
-        jsr CHROUT
-        
-        ; Display initialization message
-        ldx #$00
-INIT_MSG:
-        lda MSG_INIT,X
-        beq OPEN_CH
-        jsr CHROUT
-        inx
-        bne INIT_MSG
+settmdt:
+SetBorderColor(3)
+SetScreenColor(2)
+ClearScreen()
 
-OPEN_CH:
-        ; Open RS-232 channel
-        ; OPEN 2,2,0,CHR$(6)
-        ; LFN=2, Device=2 (RS-232), Secondary=0
-        ; CHR$(6) = 300 baud, 8-N-1
-        
-        lda #$02        ; Logical file number
-        ldx #$02        ; Device number (RS-232)
-        ldy #$00        ; Secondary address (command channel)
-        jsr OPEN
-        bcs ERROR       ; Branch if error
-        
-        ; Send control string for 300 baud
-        lda #$02        ; LFN
-        jsr CHKOUT      ; Set output to RS-232
-        
-        lda #$06        ; Control byte: 300 baud, 8-N-1
-                        ; Bit layout:
-                        ; Bits 0-3: Baud rate (6 = 300 baud)
-                        ; Bits 5-7: Word length, parity, stop bits
-        jsr CHROUT
-        
-        jsr CLRCHN      ; Clear channels
-        
-        ; Display ready message
-        ldx #$00
-READY_MSG:
-        lda MSG_READY,X
-        beq INIT_DONE
-        jsr CHROUT
-        inx
-        bne READY_MSG
+jsr init_comm  // Initialize comm channel
+jsr term_loop   // Enter main terminal loop
+rts
 
-INIT_DONE:
-        rts
+//---init rs232 channel
+init_comm:
+jsr CLALL
+//set baud rate and parity
+lda #$00
+sta cmd_reg
+lda #$06        //300 baud
+sta ctrl_reg
+//set name (points to cmd and ctrl)
+lda #$02
+ldx #$93
+ldy #$02
+jsr SETNAM
+//set file number via LFS
+lda #$80
+ldx #$02
+ldy #$ff
+jsr SETLFS
+jsr OPEN
+rts
 
-ERROR:
-        ; Display error message
-        ldx #$00
-ERR_MSG:
-        lda MSG_ERROR,X
-        beq ERR_END
-        jsr CHROUT
-        inx
-        bne ERR_MSG
-ERR_END:
-        pla             ; Pull return address
-        pla
-        rts             ; Exit program
+//---terminal loop
+term_loop:
+jsr STOP
+bne continue_comm
+rts
+continue_comm:
 
-; Main terminal loop
-MAIN_LOOP:
-        ; Check for keyboard input
-        jsr GETIN
-        cmp #$00
-        beq CHECK_RS232 ; No key pressed
-        
-        ; Send to RS-232
-        pha             ; Save character
-        lda #$02
-        jsr CHKOUT      ; Set output to RS-232
-        pla
-        jsr CHROUT      ; Send character
-        jsr CLRCHN
-        
-        ; Echo to screen
-        jsr CHROUT
+jsr CLRCHN
+jsr GETIN
+sta $6a
+beq get_comm_in  
+jsr extended
+//.break
+//lda $6a
+//jsr CHROUT      //debug only
+ldx #$80
+jsr CHKOUT
+lda $6a
+jsr CHROUT
+//send LF also
+lda $6a
+cmp #RETURN
+bne get_comm_in
+lda #$0a 
+sta $6a
+//ldx #$80
+//jsr CHKOUT
+lda $6a
+jsr CHROUT
 
-CHECK_RS232:
-        ; Check for RS-232 input
-        lda #$02
-        jsr CHKIN       ; Set input from RS-232
-        jsr CHRIN       ; Get character
-        pha             ; Save character
-        jsr CLRCHN
-        pla
-        
-        ; Check for actual data (not status)
-        cmp #$00
-        beq MAIN_LOOP   ; No data received
-        
-        ; Display received character
-        jsr CHROUT
-        
-        jmp MAIN_LOOP
 
-; Messages
+
+get_comm_in:
+//jmp term_loop
+ldx #$80
+jsr CHKIN
+jsr GETIN
+sta $6a
+//to screen???
+//lda $6a
+beq term_loop
+jsr CLRCHN
+lda $6a
+jsr CHROUT
+jmp term_loop
+
+
+rts
+
+
+extended:
+//check for f1 key
+cmp #f1
+bne chk_f3
+delaySec($02)
+ldx #$00
+ClearScreen()
+
+f1_text_loop:
+lda MSG_CONNECT,x 
+sta $6a
+beq f1_end
+//print message to screen and comm
+//jsr CHROUT
+txa
+pha
+
+ldx #$80
+jsr CHKOUT
+lda $6a
+jsr CHROUT
+
+pla
+tax
+inx
+jmp f1_text_loop
+f1_end:
+rts
+
+chk_f3:
+//check for f3 key
+cmp #f3
+bne f3_end
+ClearScreen()
+ldx #$00
+f3_text_loop:
+lda MSG_DTTM,x 
+sta $6a
+beq f3_read_info
+//print message to screen and comm
+//jsr CHROUT
+txa
+pha
+
+ldx #$80
+jsr CHKOUT
+lda $6a
+jsr CHROUT
+
+pla
+tax
+inx
+jmp f3_text_loop
+f3_read_info:
+//read time and date from screen (static locations)
+delaySec(4)
+
+
+f3_end:
+rts
+
+
+
+
+// Messages
 MSG_INIT:
-        .byte "RS-232 TERMINAL INIT...",RETURN,$00
+        .text "RS-232 TERMINAL INIT..."
+        .byte RETURN,$00
 MSG_READY:
-        .byte "READY AT 300 BAUD",RETURN
-        .byte "PRESS RUN/STOP-RESTORE TO EXIT",RETURN,RETURN,$00
-MSG_ERROR:
-        .byte "ERROR OPENING RS-232!",RETURN,$00
+        .text "READY AT 1200 BAUD"
+        .byte RETURN
+        .text "PRESS RUN/STOP-RESTORE TO EXIT"
+        .byte RETURN, RETURN,$00
 
-; Entry point message
-        *= $CFFA
-        .byte "SYS 49152 TO START",$00
+MSG_ERROR:
+        .text "ERROR OPENING RS-232!"
+        .byte RETURN,$00
+
+MSG_CONNECT:
+        .text "ATDT192.168.1.253"
+        .byte RETURN, $0A, $00
+
+MSG_DTTM:
+        .text "DTTM"
+        .byte RETURN, $0A, $00
+
+
+MSG_TIME:
+        .text "TIME"
+        .byte RETURN, $0A, $00
+

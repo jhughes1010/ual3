@@ -13,6 +13,7 @@ BasicUpstart2(start) // 10 sys$0810
 #import "macro.asm"
 #import "subroutines.asm"
 #import "interrupts.asm"
+#import "rs232.asm"
 
 
 //.segment Code "Main"
@@ -25,11 +26,14 @@ ClearScreen()
 PlotXY(12,4)
 OutputText(TITLE)
 
-SetDate($01,$04,$26)
+//SetDate($01,$04,$26)
 
 PlotXY(15,23)
 OutputText(PRESSKEY)
 jsr waitKey
+//open comm port to get date and time from server
+jsr settmdt
+
 
 PlotXY(12,12)
 OutputText(LOADSCH)

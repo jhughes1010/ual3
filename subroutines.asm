@@ -2,7 +2,6 @@
 waitKey:
 jsr GETIN
 beq waitKey
-.break
 rts
 
 

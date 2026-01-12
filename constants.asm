@@ -46,10 +46,10 @@
 
 //special keys
 .label f1 = $85
-.label fn_2 = $86
-.label f3 = $87
-.label f4 = $88
-.label f5 = $89
-.label f6 = $8a
-.label f7 = $8b
-.label f8 = $8c
+.label fn_2 = $8a
+.label f3 = $86
+.label f4 = $8b
+.label f5 = $88
+.label f6 = $8c
+.label f7 = $89
+.label f8 = $8d
