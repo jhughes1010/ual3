@@ -26,8 +26,6 @@ ClearScreen()
 PlotXY(12,4)
 OutputText(TITLE)
 
-//SetDate($01,$04,$26)
-
 PlotXY(15,23)
 OutputText(PRESSKEY)
 jsr waitKey
@@ -71,9 +69,6 @@ jsr calendar_maintenance    //check for max day in given month and rollover
 DisplayTOD()
 DisplayDate()
 
-//check for 'f2' key
-jsr GETIN
-cmp #fn_2
 //check for break key
 jsr STOP
 bne continue

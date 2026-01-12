@@ -136,7 +136,7 @@ done:
    lda CIA1_TENTH
 }
 
-.macro SetDate(month, day, year)
+.macro _SetDate(month, day, year)
 {
    lda #month
    sta MONTH
@@ -240,4 +240,20 @@ done:
 // last middle iteration: 4,874 + 2 + 2 = 4,878 cycles
 // outer loop: 97,560*5 + 4,878 + 5 + 3 = 1,000,286 cycles
 // approximately 1 second at 1mhz (1,000,000 cycles/sec)
+}
+
+.macro getBCDvalue(screen_location,BCDdest)
+{
+lda screen_location
+and #$0f
+asl
+asl
+asl
+asl
+sta BCDdest
+lda screen_location+1
+and #$0f
+clc
+adc BCDdest
+sta BCDdest
 }

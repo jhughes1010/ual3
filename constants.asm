@@ -46,10 +46,35 @@
 
 //special keys
 .label f1 = $85
-.label fn_2 = $8a
+.label fn_2 = $89
 .label f3 = $86
-.label f4 = $8b
-.label f5 = $88
-.label f6 = $8c
-.label f7 = $89
-.label f8 = $8d
+.label f4 = $8a
+.label f5 = $87
+.label f6 = $8b
+.label f7 = $88
+.label f8 = $8c
+
+//date locations on screen memory
+.label screenDay = $0408
+.label screenMonth = $0405
+.label screenYear = $0402
+
+// Kernal routines
+.label CHRIN   = $FFCF         // Input character
+//.label CHROUT  = $FFD2         // Output character
+//.label GETIN   = $FFE4         // Get character from keyboard
+.label OPEN    = $FFC0         // Open file
+.label CLOSE   = $FFC3         // Close file
+.label CHKIN   = $FFC6         // Set input channel
+.label CHKOUT  = $FFC9         // Set output channel
+.label CLRCHN  = $FFCC         // Clear I/O channels
+.label CLALL = $ffe7
+//.label SETLFS  = $FFBA
+//.label SETNAM  = $FFBD
+
+.label ctrl_reg = $0293
+.label cmd_reg = $0294
+
+// Screen codes
+.label CLRSCR  = $93           // Clear screen
+.label RETURN  = $0D           // Return key

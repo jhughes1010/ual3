@@ -1,29 +1,9 @@
-// Commodore 64 RS-232 Dumb Terminal
+// Commodore 64 Dumb Terminal
 // Baud Rate: 300
-// Assembles at $C000
 
 
-// Kernal routines
-.label CHRIN   = $FFCF         // Input character
-//.label CHROUT  = $FFD2         // Output character
-//.label GETIN   = $FFE4         // Get character from keyboard
-.label OPEN    = $FFC0         // Open file
-.label CLOSE   = $FFC3         // Close file
-.label CHKIN   = $FFC6         // Set input channel
-.label CHKOUT  = $FFC9         // Set output channel
-.label CLRCHN  = $FFCC         // Clear I/O channels
-.label CLALL = $ffe7
-//.label SETLFS  = $FFBA
-//.label SETNAM  = $FFBD
 
-.label ctrl_reg = $0293
-.label cmd_reg = $0294
-
-// Screen codes
-.label CLRSCR  = $93           // Clear screen
-.label RETURN  = $0D           // Return key
-
-settmdt:
+_settmdt:       //debug onlt, full terminal routine
 SetBorderColor(3)
 SetScreenColor(2)
 ClearScreen()
@@ -32,7 +12,24 @@ jsr init_comm  // Initialize comm channel
 jsr term_loop   // Enter main terminal loop
 rts
 
-//---init rs232 channel
+settmdt:
+SetBorderColor(3)
+SetScreenColor(6)
+ClearScreen()
+jsr init_comm  // Initialize comm channel
+delaySec(1)
+jsr clear_buffer
+sendCommMessage(MSG_CONNECT)
+delaySec(3)
+jsr clear_buffer
+sendCommMessage(MSG_DTTM)
+delaySec(2)
+jsr clear_buffer
+jsr parse_date_time
+
+rts
+
+//---init comm channel
 init_comm:
 jsr CLALL
 //set baud rate and parity
@@ -102,6 +99,28 @@ jmp term_loop
 
 rts
 
+clear_buffer:
+{
+//delaySec(3)
+jsr CLRCHN
+ClearScreen()
+
+empty_buffer_loop:
+ldx #$80
+jsr CHKIN
+jsr GETIN
+sta $6a
+cmp #$00
+beq end
+jsr CLRCHN
+lda $6a
+jsr CHROUT
+jmp empty_buffer_loop
+end:
+rts
+}
+
+
 
 extended:
 //check for f1 key
@@ -135,34 +154,61 @@ rts
 chk_f3:
 //check for f3 key
 cmp #f3
-bne f3_end
-ClearScreen()
+beq f3_cont
+jmp chk_f4
+f3_cont:
+f3_read_info:
+//read time and date from screen (static locations)
+delaySec(4)
+//date-day
+//getBCDvalue(screenDay,DAY)
+//getBCDvalue(screenMonth,MONTH)
+//getBCDvalue(screenYear,YEAR)
+
+f3_end:
+rts
+
+chk_f4:
+cmp #f4
+bne next
+getBCDvalue(screenDay,DAY)
+getBCDvalue(screenMonth,MONTH)
+getBCDvalue(screenYear,YEAR)
+//.break
+
+rts
+next:
+rts
+
+parse_date_time:
+getBCDvalue(screenDay,DAY)
+getBCDvalue(screenMonth,MONTH)
+getBCDvalue(screenYear,YEAR)
+rts
+
+.macro sendCommMessage(message)
+{
+//ClearScreen()
 ldx #$00
-f3_text_loop:
-lda MSG_DTTM,x 
+text_loop:
+lda message,x 
 sta $6a
-beq f3_read_info
-//print message to screen and comm
-//jsr CHROUT
+beq end
+
 txa
 pha
-
 ldx #$80
 jsr CHKOUT
 lda $6a
 jsr CHROUT
-
 pla
 tax
+
 inx
-jmp f3_text_loop
-f3_read_info:
-//read time and date from screen (static locations)
-delaySec(4)
-
-
-f3_end:
-rts
+jmp text_loop
+end:
+nop
+}
 
 
 
