@@ -65,12 +65,7 @@ DisplayDate()
 //check for break key
 jsr STOP
 bne continue
-rts
+brk
 continue:
-//-----reinforcement as I think Kernal is clearing this
-//-----set cia to generate interrupt
-//lda #%10000100
-//sta CIA1_ICR
-
 
 jmp main

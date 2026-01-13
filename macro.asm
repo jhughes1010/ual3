@@ -257,3 +257,27 @@ clc
 adc BCDdest
 sta BCDdest
 }
+
+.macro sendCommMessage(message)
+{
+//ClearScreen()
+ldx #$00
+text_loop:
+lda message,x 
+sta $6a
+beq end
+
+txa
+pha
+ldx #$80
+jsr CHKOUT
+lda $6a
+jsr CHROUT
+pla
+tax
+
+inx
+jmp text_loop
+end:
+nop
+}

@@ -66,3 +66,32 @@ MINUTE:
 SECOND:
 .byte 0
 
+
+// Messages
+MSG_INIT:
+        .text "RS-232 TERMINAL INIT..."
+        .byte RETURN,$00
+MSG_READY:
+        .text "READY AT 1200 BAUD"
+        .byte RETURN
+        .text "PRESS RUN/STOP-RESTORE TO EXIT"
+        .byte RETURN, RETURN,$00
+
+MSG_ERROR:
+        .text "ERROR OPENING RS-232!"
+        .byte RETURN,$00
+
+MSG_CONNECT:
+        .text "ATDT192.168.1.253"
+        .byte RETURN, $0A, $00
+
+MSG_DTTM:
+        .text "DTTM"
+        .byte RETURN, $0A, $00
+
+
+MSG_TIME:
+        .text "TIME"
+        .byte RETURN, $0A, $00
+
+
