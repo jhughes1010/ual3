@@ -1,6 +1,6 @@
 //UAL flight schedule tracker
 //James Hughes
-//11-25-25
+//01-12-26
 
 BasicUpstart2(start)
 
@@ -8,7 +8,6 @@ BasicUpstart2(start)
 #import "fileList.asm"
 #import "constants.asm"
 
-//.segment Code "Main"
 start: 
     lda #$00
     sta FLAG_DAY
@@ -21,7 +20,7 @@ start:
     PlotXY(15,23)
     OutputText(PRESSKEY)
     jsr waitKey
-    
+
     //open comm port to get date and time from server
     jsr set_time_date
 

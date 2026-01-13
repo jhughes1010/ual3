@@ -1,4 +1,6 @@
+//-----------------------------------------------
 //---set time and date via TELNET time server
+//-----------------------------------------------
 set_time_date:
     SetBorderColor(3)
     SetScreenColor(6)
@@ -20,7 +22,9 @@ set_time_date:
     jsr parse_date_time
     rts
 
+//-----------------------------------------------
 //---init comm channel
+//-----------------------------------------------
 init_comm:
     jsr CLALL
     //set baud rate and parity
@@ -41,7 +45,9 @@ init_comm:
     jsr OPEN
     rts
 
+//-----------------------------------------------
 //---clear RX buffer and send to screen
+//-----------------------------------------------
 clear_buffer:
 {
     jsr CLRCHN
@@ -61,8 +67,9 @@ empty_buffer_loop:
     end:
     rts
 }
-
+//-----------------------------------------------
 //---parse date and time from top row of screen memory
+//-----------------------------------------------
 parse_date_time:
     //parse date
     getBCDvalue(screenDay,DAY)

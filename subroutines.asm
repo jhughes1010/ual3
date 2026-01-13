@@ -1,11 +1,16 @@
 //================Subroutines===================
+//-----------------------------------------------
+//-----------------------------------------------
+//-----------------------------------------------
 waitKey:
     jsr GETIN
     beq waitKey
     rts
 
 
+//-----------------------------------------------
 //-----dashboard entry points
+//-----------------------------------------------
 dash_update_dtime:
     clc
     lda #<s_start
@@ -105,7 +110,9 @@ dashboard:
     jsr dash_update_atime
     rts
 
+//-----------------------------------------------
 //-----check and increment day if needed
+//-----------------------------------------------
 new_day_check:
 {
     lda FLAG_DAY
@@ -123,7 +130,9 @@ new_day_check:
     rts
 }
 
+//-----------------------------------------------
 //-----Reset and arm flag for end of day new_day_check
+//-----------------------------------------------
 reset_day_check_flag:
     lda FLAG_DAY
     cmp #$00
@@ -138,7 +147,9 @@ reset_day_check_flag:
     end:
     rts
 
+//-----------------------------------------------
 //-----calendar day maintnenace
+//-----------------------------------------------
 calendar_maintenance:
 {
     lda DAY
@@ -164,8 +175,9 @@ calendar_maintenance:
     rts
 }
 
-
-//---------mult40
+//-----------------------------------------------
+//---mult40
+//-----------------------------------------------
 mult40:
     lda num       //;Start with RESULT = NUM
     sta result
@@ -194,9 +206,24 @@ mult40:
     check_f2:
     jsr GETIN
     rts
+//-----------------------------------------------
 //---set TOD via reserved memory locations (preloaded)
+//-----------------------------------------------
 setCIATOD:
 {
+    //is hour >11am
+    //.break
+    lda HOUR
+    cmp #$11
+    bmi settime 
+    sed
+    //lda HOUR
+    sbc #$12
+    ora #$80
+    cld
+    sta HOUR
+    //brk
+settime:
     lda HOUR
     sta CIA1_HOUR
     lda MINUTE

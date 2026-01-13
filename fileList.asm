@@ -53,6 +53,9 @@ FLAG_DAY:
 FLAG:
 .byte 0
 
+FLAG_PM:
+.byte 0
+
 //get rid of these!!!!
 .var num = $0000
 .var result = $d969
