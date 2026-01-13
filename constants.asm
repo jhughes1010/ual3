@@ -45,19 +45,19 @@
 
 
 //special keys
-.label f1 = $85
+.label fn_1 = $85
 .label fn_2 = $89
-.label f3 = $86
-.label f4 = $8a
-.label f5 = $87
-.label f6 = $8b
-.label f7 = $88
-.label f8 = $8c
+.label fn_3 = $86
+.label fn_4 = $8a
+.label fn_5 = $87
+.label fn_6 = $8b
+.label fn_7 = $88
+.label fn_8 = $8c
 
 //date locations on screen memory
-.label screenDay = $0408
-.label screenMonth = $0405
 .label screenYear = $0402
+.label screenMonth = screenYear + 3
+.label screenDay = screenYear + 6
 
 //time locations on screen memory
 .label screenHour = $040F

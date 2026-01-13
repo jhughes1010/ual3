@@ -15,7 +15,7 @@ dash_update_dtime:
     clc
     lda #<s_start
     adc #$0f
-    sta S_REC_LOC
+    sta REC_MEM
     lda #$10
     sta x_txt
     jmp top_hdr
@@ -24,7 +24,7 @@ dash_update_atime:
     clc
     lda #<s_start
     adc #$15
-    sta S_REC_LOC
+    sta REC_MEM
     lda #$16
     sta x_txt
     jmp top_hdr
@@ -33,7 +33,7 @@ dash_update_flt:
     clc
     lda #<s_start
     adc #$00
-    sta S_REC_LOC
+    sta REC_MEM
     lda #$01
     sta x_txt
     jmp top_hdr
@@ -42,7 +42,7 @@ dash_update_arr:
     clc
     lda #<s_start
     adc #$0b
-    sta S_REC_LOC
+    sta REC_MEM
     lda #$0c
     sta x_txt
     jmp top_hdr
@@ -51,18 +51,18 @@ dash_update_arr:
 dash_update_dep:
     lda #<s_start
     adc #$07
-    sta S_REC_LOC
+    sta REC_MEM
     lda #$08
     sta x_txt
 
 top_hdr:
     lda #>s_start
-    sta S_REC_LOC+1
+    sta REC_MEM+1
     lda #$09
     sta y_txt
-    lda S_REC_LOC
+    lda REC_MEM
     sta $02
-    lda S_REC_LOC + 1
+    lda REC_MEM + 1
     sta $03
     ldx #$08
 
@@ -201,11 +201,9 @@ mult40:
     rol result+1  //;RESULT = 20*NUM
     asl result
     rol result+1  //;RESULT = 40*NUM
+    .break
     rts
 
-    check_f2:
-    jsr GETIN
-    rts
 //-----------------------------------------------
 //---set TOD via reserved memory locations (preloaded)
 //-----------------------------------------------
@@ -232,5 +230,38 @@ settime:
     sta CIA1_SEC
     lda #$00
     sta CIA1_TENTH
+    rts
+}
+
+//-----------------------------------------------
+//---dashboard display for current day flights
+//-----------------------------------------------
+dashboard_update:
+{
+    //to be replaced with date filter function
+    lda #03    //record start
+    sta REC_PTR
+    ldx #$02    //record count
+    
+    //calc record start address in memory
+    //and place in REC_MEM
+    //REC_MEM=s_start+REC_PTR*$20
+    lda #<s_start
+    sta REC_MEM
+    lda #>s_start
+    sta REC_MEM+1
+    ldx REC_PTR
+loop:
+    clc
+    lda #s_size
+    adc REC_MEM
+    sta REC_MEM
+    lda #$00
+    adc REC_MEM+1
+    sta REC_MEM+1
+    dex
+    bne loop
+    .break
+
     rts
 }

@@ -42,7 +42,7 @@ start:
     LoadFile(4,FILE_DASHBOARD,8,$0400)
 
     //update flight details
-    jsr dashboard
+    jsr dashboard_update
     //possible clear dashboard
     jsr init_irq
 
