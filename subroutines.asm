@@ -239,29 +239,83 @@ settime:
 dashboard_update:
 {
     //to be replaced with date filter function
-    lda #03    //record start
-    sta REC_PTR
-    ldx #$02    //record count
+    ldx #45    //record count
+    lda #$09
+    sta y_txt
     
     //calc record start address in memory
     //and place in REC_MEM
     //REC_MEM=s_start+REC_PTR*$20
     lda #<s_start
-    sta REC_MEM
+    sta zp_0
     lda #>s_start
-    sta REC_MEM+1
-    ldx REC_PTR
+    sta zp_0+1
 loop:
+    //check for end of table data
+    ldy#$00
+    lda (zp_0),y
+    beq end
+    //plot record to screen
+    jsr write_record
+    inc y_txt
+
+
+    //increment zp pointer and check for record end
     clc
     lda #s_size
-    adc REC_MEM
-    sta REC_MEM
+    adc zp_0
+    sta zp_0
     lda #$00
-    adc REC_MEM+1
-    sta REC_MEM+1
+    adc zp_0+1
+    sta zp_0+1
     dex
     bne loop
-    .break
+end:
+    //.break
 
     rts
 }
+
+write_record:
+    tya
+    pha
+    txa
+    pha
+
+    //flight
+    ldx y_txt
+    PlotX(1)
+    //OutputText(REC_TEST)
+    OutputZP_0Text(0)
+
+    //dep
+    ldx y_txt
+    PlotX(8)
+    OutputZP_0Text(7)
+
+    //arr
+    ldx y_txt
+    PlotX(12)
+    OutputZP_0Text(11)
+
+     //time depart
+    ldx y_txt
+    PlotX(16)
+    OutputZP_0Text(15)
+
+    //time arrive
+    ldx y_txt
+    PlotX(22)
+    OutputZP_0Text(21)
+
+    //date
+    ldx y_txt
+    PlotX(28)
+    OutputZP_0Text(27)
+
+
+   pla
+    tax
+    pla
+    tay 
+    rts

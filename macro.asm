@@ -25,10 +25,29 @@ loop:
 done:       
 }
 
+.macro OutputZP_0Text(position)
+{
+   ldy #position
+loop:
+   lda (zp_0),y
+   beq done
+   jsr CHROUT
+   iny
+   jmp loop
+done:
+}
+
 .macro PlotXY(x,y){
    ldy #x 
    ldx #y 
    clc 
+   jsr PLOT
+}
+
+.macro PlotX(x)
+{
+   ldy #x 
+   clc
    jsr PLOT
 }
 

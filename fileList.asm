@@ -38,6 +38,10 @@ COMM_DATE:
   .text "RETRIEVING DATE"
   .byte 0
 
+REC_TEST:
+  .text "DEP"
+  .byte 0
+
 REC_MEM:
   .word 0
 
