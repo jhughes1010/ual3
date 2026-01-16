@@ -265,3 +265,18 @@ loop:
 
     rts
 }
+
+   setSchColor:
+   {
+    ldx #$00
+ loop:
+   // .break
+    lda #$05
+    sta SCREEN_COLOR_RAM_SCH,x
+    inx
+    bne loop
+
+
+    end:
+    rts
+   }

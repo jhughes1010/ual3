@@ -295,6 +295,8 @@ nop
    lda #$00
    adc COLOR_BAR+1
    sta COLOR_BAR+1
+
+   jsr setSchColor
    
    end:
 }
