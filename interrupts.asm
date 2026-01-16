@@ -16,9 +16,9 @@ irq:
 //-----------------------------------------------
 raster:
     ldy #37
-    lda #<result
+    lda COLOR_BAR
     sta zp_0
-    lda #>result
+    lda COLOR_BAR+1
     sta zp_0 + 1
 
     lda $a2

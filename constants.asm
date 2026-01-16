@@ -15,6 +15,7 @@
 
 .label SCREEN_RAM = $0400
 .label SCREEN_COLOR_RAM = $D800
+.label SCREEN_COLOR_RAM_SCH = SCREEN_COLOR_RAM + 9*40
 
 //-----
 .label SCREEN_DATE = $0400 + 45

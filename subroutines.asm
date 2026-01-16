@@ -261,7 +261,7 @@ loop:
     sta REC_MEM+1
     dex
     bne loop
-    .break
+    //.break
 
     rts
 }
