@@ -1,13 +1,13 @@
 // Set border color
 .macro SetBorderColor(color) {
 lda #color
-sta $d020
+sta border
 }
 
 // Set screen color
 .macro SetScreenColor(color) {
 lda #color
-sta $d021
+sta screen
 }
 
 //Set text

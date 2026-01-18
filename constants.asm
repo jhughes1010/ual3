@@ -17,6 +17,11 @@
 .label SCREEN_COLOR_RAM = $D800
 .label SCREEN_COLOR_RAM_SCH = SCREEN_COLOR_RAM + 9*40
 
+//-----VIC chip
+.label border = $d020
+.label screen = $d021
+
+
 //-----
 .label SCREEN_DATE = $0400 + 45
 
