@@ -257,7 +257,7 @@ loop:
     beq end
     //plot record to screen
     jsr write_record
-    inc y_txt
+    //inc y_txt
 
 
     //increment zp pointer and check for record end
@@ -281,6 +281,11 @@ write_record:
     pha
     txa
     pha
+
+    ldy #27
+    lda (zp_0),y 
+    cmp DAY
+    bne skip_output
 
     //flight
     ldx y_txt
@@ -308,12 +313,15 @@ write_record:
     PlotX(22)
     OutputZP_0Text(21)
 
-    //date
-    ldx y_txt
-    PlotX(28)
-    OutputZP_0Text(27)
+    //date - do not display
+    //ldx y_txt
+    //PlotX(28)
+    //OutputZP_0Text(27)
+
+    inc y_txt
 
 
+skip_output:
    pla
     tax
     pla

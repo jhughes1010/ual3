@@ -114,7 +114,7 @@ done:
    sta SCREEN_RAM+6
 
    lda CIA1_HOUR
-   and #$f0
+   and #$70
    lsr  
    lsr 
    lsr 
