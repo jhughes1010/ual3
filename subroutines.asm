@@ -270,16 +270,11 @@ loop:
     sta zp_0+1
     dex
     bne loop
-<<<<<<< HEAD
-end:
-=======
->>>>>>> 317d9ffc849199d8659ad15d253c4791042dceea
     //.break
 
     rts
 }
 
-<<<<<<< HEAD
 write_record:
     tya
     pha
@@ -331,19 +326,3 @@ skip_output:
     pla
     tay 
     rts
-=======
-   setSchColor:
-   {
-    ldx #$00
- loop:
-   // .break
-    lda #$05
-    sta SCREEN_COLOR_RAM_SCH,x
-    inx
-    bne loop
-
-
-    end:
-    rts
-   }
->>>>>>> 317d9ffc849199d8659ad15d253c4791042dceea
