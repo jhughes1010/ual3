@@ -22,9 +22,9 @@ start:
     jsr waitKey
 
     //open comm port to get date and time from server
-    //jsr set_time_date
-    lda #$06
-    sta DAY
+    jsr set_time_date
+    //lda #$06
+    //sta DAY
 
 
     PlotXY(12,12)

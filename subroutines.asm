@@ -271,7 +271,7 @@ loop:
     dex
     bne loop
     //.break
-
+end:
     rts
 }
 
@@ -326,3 +326,18 @@ skip_output:
     pla
     tay 
     rts
+
+    
+setSchColor:
+   {
+    ldx #$00
+ loop:
+    lda #$05
+    sta SCREEN_COLOR_RAM_SCH,x
+    inx
+    bne loop
+
+
+    end:
+    rts
+   }
