@@ -63,6 +63,11 @@ FLAG:
 FLAG_PM:
 .byte 0
 
+COLOR_BAR:
+.word SCREEN_COLOR_RAM_SCH
+//.byte #<SCREEN_COLOR_RAM_SCH
+//.byte #>CREEN_COLOR_RAM_SCH
+
 //get rid of these!!!!
 .var num = $0000
 .var result = $d969
@@ -90,5 +95,6 @@ MSG_DTTM:
 MSG_TIME:
         .text "TIME"
         .byte RETURN, $0A, $00
+
 
 

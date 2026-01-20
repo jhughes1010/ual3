@@ -1,19 +1,13 @@
-.label border = $d020
-.label screen = $d021
+BasicUpstart2(main)
 
-
-*=$C000
 main:
-jsr set_screen
-
-end:
-rts
-
-//---subroutines---
-set_screen:
+.break
 lda #$02
 sta border
-lda #$00
+
+lda #$0
 sta screen
 
+
+end:
 rts

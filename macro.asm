@@ -1,13 +1,13 @@
 // Set border color
 .macro SetBorderColor(color) {
 lda #color
-sta $d020
+sta border
 }
 
 // Set screen color
 .macro SetScreenColor(color) {
 lda #color
-sta $d021
+sta screen
 }
 
 //Set text
@@ -299,4 +299,23 @@ inx
 jmp text_loop
 end:
 nop
+}
+
+.macro CheckF1()
+{
+   jsr GETIN
+   cmp #fn_1
+   bne end
+   inc $d020
+   clc
+   lda #40
+   adc COLOR_BAR
+   sta COLOR_BAR
+   lda #$00
+   adc COLOR_BAR+1
+   sta COLOR_BAR+1
+
+   jsr setSchColor
+   
+   end:
 }
