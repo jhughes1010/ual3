@@ -62,8 +62,6 @@ main:
     CheckF1()
     CheckF7()
     CheckF8()
-    lda #$00
-    sta BUFFER
 
     //check for break key
     jsr STOP
