@@ -303,7 +303,7 @@ nop
 
 .macro CheckF1()
 {
-   jsr GETIN
+   lda BUFFER
    cmp #fn_1
    bne end
    inc $d020
@@ -317,5 +317,39 @@ nop
 
    jsr setSchColor
    
+   end:
+}
+
+.macro CheckF7()
+{
+   lda BUFFER
+   cmp #fn_7
+   bne end
+   sed
+   lda #$01
+   clc
+   adc DAY
+   sta DAY 
+   cld 
+
+
+   jsr dashboard_update
+   end:
+}
+
+.macro CheckF8()
+{
+   lda BUFFER
+   cmp #fn_8
+   bne end
+   .break
+   sed
+   lda DAY
+   sec
+   sbc #$01
+   sta DAY 
+   cld 
+
+   jsr dashboard_update
    end:
 }

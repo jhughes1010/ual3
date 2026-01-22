@@ -48,6 +48,9 @@ REC_MEM:
 REC_PTR:
   .byte 0
 
+BUFFER:
+  .byte 0
+
 y_txt:
 .byte 0
 

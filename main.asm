@@ -23,7 +23,7 @@ start:
 
     //open comm port to get date and time from server
     jsr set_time_date
-    //lda #$06
+    //lda #$30
     //sta DAY
 
 
@@ -47,6 +47,7 @@ start:
     jsr dashboard_update
     //possible clear dashboard
     jsr init_irq
+    jsr CLALL
 
 main:
     jsr new_day_check           //looks for 12:00am, INC DAY and sets the FLAG_DAY to prevent repeat increments
@@ -54,8 +55,15 @@ main:
     jsr calendar_maintenance    //check for max day in given month and rollover
     DisplayTOD()
     DisplayDate()
-    //check for fn1 press
+    //check for fn press
+    jsr GETIN
+    sta BUFFER
+
     CheckF1()
+    CheckF7()
+    CheckF8()
+    lda #$00
+    sta BUFFER
 
     //check for break key
     jsr STOP
