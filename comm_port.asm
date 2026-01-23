@@ -63,6 +63,7 @@ empty_buffer_loop:
     jsr CLRCHN
     lda $6a
     jsr CHROUT
+    delaymSec(1)
     jmp empty_buffer_loop
     end:
     rts

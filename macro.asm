@@ -261,6 +261,63 @@ done:
 // approximately 1 second at 1mhz (1,000,000 cycles/sec)
 }
 
+
+
+.macro delaymSec(ms)
+{
+   // 6502 variable delay routine for 1mhz clock
+// call with number of seconds in accumulator (a)
+// preserves x and y registers
+// uses zero page locations $00 and $01
+pha
+tya
+pha
+txa
+pha
+
+//lda #ms*3
+
+delay_sec:
+    sta $00         // store seconds count
+    beq done        // if 0 seconds, exit immediately
+    
+outer_loop:
+    ldx #$1        // load outer loop count (20 decimal)
+    
+middle_loop:
+    ldy #$ff        // load inner loop count (195 decimal)
+    
+inner_loop:
+    dey             // 2 cycles
+    bne inner_loop  // 3 cycles (2 when branch not taken)
+    
+    dex             // 2 cycles
+    bne middle_loop // 3 cycles (2 when branch not taken)
+    
+    dec $00         // 5 cycles - decrement second counter
+    bne outer_loop  // 3 cycles (2 when branch not taken)
+    
+done:
+    pla
+    tax
+    pla
+    tay 
+    pla
+
+// timing breakdown per second:
+// inner loop: (2+3) * 195 = 975 cycles (last iteration: 2+2 = 4)
+// total inner: 974*5 + 4 = 4,874 cycles
+// middle loop overhead: (4,874 + 2 + 3) * 20 = 97,580 cycles
+// last middle iteration: 4,874 + 2 + 2 = 4,878 cycles
+// outer loop: 97,560*5 + 4,878 + 5 + 3 = 1,000,286 cycles
+// approximately 1 second at 1mhz (1,000,000 cycles/sec)
+}
+
+
+
+
+
+
 .macro getBCDvalue(screen_location,BCDdest)
 {
 lda screen_location
