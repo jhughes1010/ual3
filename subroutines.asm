@@ -9,108 +9,6 @@ waitKey:
 
 
 //-----------------------------------------------
-//-----dashboard entry points
-//-----------------------------------------------
-dash_update_dtime:
-    clc
-    lda #<s_start
-    adc #$0f
-    sta REC_MEM
-    lda #$10
-    sta x_txt
-    jmp top_hdr
-
-dash_update_atime:
-    clc
-    lda #<s_start
-    adc #$15
-    sta REC_MEM
-    lda #$16
-    sta x_txt
-    jmp top_hdr
-
-dash_update_flt:
-    clc
-    lda #<s_start
-    adc #$00
-    sta REC_MEM
-    lda #$01
-    sta x_txt
-    jmp top_hdr
-
-dash_update_arr:
-    clc
-    lda #<s_start
-    adc #$0b
-    sta REC_MEM
-    lda #$0c
-    sta x_txt
-    jmp top_hdr
-
-
-dash_update_dep:
-    lda #<s_start
-    adc #$07
-    sta REC_MEM
-    lda #$08
-    sta x_txt
-
-top_hdr:
-    lda #>s_start
-    sta REC_MEM+1
-    lda #$09
-    sta y_txt
-    lda REC_MEM
-    sta $02
-    lda REC_MEM + 1
-    sta $03
-    ldx #$08
-
-top:
-    txa
-    pha
-
-    //PlotXY
-    ldx y_txt
-    ldy x_txt
-    clc 
-    jsr PLOT
-    pla
-    tax
-
-
-    ldy #$00
-    loop:
-    lda ($02),y
-    beq done
-    jsr CHROUT 
-    iny        
-    jmp loop 
-
-done:        
-    clc
-    lda #$20
-    adc $02
-    sta $02
-
-    inc y_txt
-    //inc x_txt
-
-    dex
-    bne top
-
-    rts
-
-
-dashboard:
-    jsr dash_update_dep
-    jsr dash_update_arr
-    jsr dash_update_flt
-    jsr dash_update_dtime
-    jsr dash_update_atime
-    rts
-
-//-----------------------------------------------
 //-----check and increment day if needed
 //-----------------------------------------------
 new_day_check:
@@ -241,9 +139,8 @@ dashboard_update:
     //clear screen memory schedule row 9 to14
     jsr clear_board
 
-    //to be replaced with date filter function
-    ldx #45    //record count
-    lda #$09
+    ldx #10     //record count
+    lda #$09    //column 9
     sta y_txt
     
     //calc record start address in memory
@@ -260,7 +157,6 @@ loop:
     beq end
     //plot record to screen
     jsr write_record
-    //inc y_txt
 
 
     //increment zp pointer and check for record end
@@ -277,8 +173,11 @@ loop:
 end:
     rts
 }
-
+//-----------------------------------------------
+//---if day matches, write current record to the screen
+//-----------------------------------------------
 write_record:
+{
     tya
     pha
     txa
@@ -287,7 +186,7 @@ write_record:
     ldy #27
     lda (zp_0),y 
     cmp DAY
-    bne skip_output
+    bne end
 
     //flight
     ldx y_txt
@@ -315,33 +214,24 @@ write_record:
     PlotX(22)
     OutputZP_0Text(21)
 
-    //date - do not display
-    //ldx y_txt
-    //PlotX(28)
-    //OutputZP_0Text(27)
-
     inc y_txt
-
-
-skip_output:
-   pla
+end:
+    pla
     tax
     pla
     tay 
     rts
 
-    
+}  
 setSchColor:
-   {
+{
     ldx #$00
  loop:
     lda #$05
     sta SCREEN_COLOR_RAM_SCH,x
     inx
     bne loop
-
-
-    end:
+end:
     rts
    }
 
@@ -351,23 +241,25 @@ clear_board:
     sta zp_0
     lda #>SCREEN_FLIGHTS
     sta zp_0+1
-    
     //5 rows
     ldx#05
-
 new_row:
     //38 columns to clear
     ldy #37
-
 clear_row:
-    lda #$20
+    lda #SPACE
     sta (zp_0),y
     dey
     bne clear_row
-    dex
     //add 40d to zp_0
+    clc
+    lda SCREEN_COLUMN_WIDTH
+    adc zp_0
+    sta zp_0
+    lda #$00
+    adc zp_0 + 1
+    sta zp_0 + 1
+    dex
     bne new_row
-
-
     rts 
 }

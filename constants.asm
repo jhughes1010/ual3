@@ -17,6 +17,7 @@
 .label SCREEN_FLIGHTS = $0400 + 9*40 +1
 .label SCREEN_COLOR_RAM = $D800
 .label SCREEN_COLOR_RAM_SCH = SCREEN_COLOR_RAM + 9*40 + 1
+.label SCREEN_COLUMN_WIDTH = 40
 
 //-----VIC chip
 .label border = $d020
@@ -91,3 +92,4 @@
 // Screen codes
 .label CLRSCR  = $93           // Clear screen
 .label RETURN  = $0D           // Return key
+.label SPACE   = $20
