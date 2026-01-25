@@ -399,7 +399,6 @@ nop
    lda BUFFER
    cmp #fn_8
    bne end
-   .break
    sed
    lda DAY
    sec

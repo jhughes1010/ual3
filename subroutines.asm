@@ -238,6 +238,9 @@ settime:
 //-----------------------------------------------
 dashboard_update:
 {
+    //clear screen memory schedule row 9 to14
+    jsr clear_board
+
     //to be replaced with date filter function
     ldx #45    //record count
     lda #$09
@@ -341,3 +344,30 @@ setSchColor:
     end:
     rts
    }
+
+clear_board:
+{
+    lda #<SCREEN_FLIGHTS
+    sta zp_0
+    lda #>SCREEN_FLIGHTS
+    sta zp_0+1
+    
+    //5 rows
+    ldx#05
+
+new_row:
+    //38 columns to clear
+    ldy #37
+
+clear_row:
+    lda #$20
+    sta (zp_0),y
+    dey
+    bne clear_row
+    dex
+    //add 40d to zp_0
+    bne new_row
+
+
+    rts 
+}

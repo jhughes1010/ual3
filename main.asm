@@ -5,7 +5,6 @@
 BasicUpstart2(start)
 
 .encoding "petscii_upper"
-#import "fileList.asm"
 #import "constants.asm"
 
 start: 
@@ -70,6 +69,7 @@ main:
 continue:
     jmp main
 
+#import "fileList.asm"
 #import "macro.asm"
 #import "subroutines.asm"
 #import "interrupts.asm"
