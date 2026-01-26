@@ -169,7 +169,6 @@ loop:
     sta zp_0+1
     dex
     bne loop
-    //.break
 end:
     rts
 }
@@ -178,11 +177,7 @@ end:
 //-----------------------------------------------
 write_record:
 {
-    tya
-    pha
-    txa
-    pha
-
+    PushXYStack()
     ldy #27
     lda (zp_0),y 
     cmp DAY
@@ -216,12 +211,7 @@ write_record:
 
     inc y_txt
 end:
-    pla
-    tax
-    pla
-    tay 
-    rts
-
+    PullXYStack()
 }  
 setSchColor:
 {
@@ -234,6 +224,9 @@ setSchColor:
 end:
     rts
    }
+//-----------------------------------------------
+//---clear 5 rows of flight board
+//-----------------------------------------------
 
 clear_board:
 {
@@ -250,10 +243,10 @@ clear_row:
     lda #SPACE
     sta (zp_0),y
     dey
-    bne clear_row
+    bpl clear_row
     //add 40d to zp_0
     clc
-    lda SCREEN_COLUMN_WIDTH
+    lda #SCREEN_COLUMN_WIDTH
     adc zp_0
     sta zp_0
     lda #$00

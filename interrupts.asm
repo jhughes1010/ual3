@@ -17,9 +17,9 @@ irq:
 raster:
     ldy #37
     lda COLOR_BAR
-    sta zp_0
+    sta zp_1
     lda COLOR_BAR+1
-    sta zp_0 + 1
+    sta zp_1 + 1
 
     lda $a2
     and #$40
@@ -34,7 +34,7 @@ raster:
     lda #$00
 
 write_color:
-    sta (zp_0),y
+    sta (zp_1),y
 
     dey
     bmi end_irq

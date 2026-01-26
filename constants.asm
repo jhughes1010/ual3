@@ -23,7 +23,6 @@
 .label border = $d020
 .label screen = $d021
 
-
 //-----
 .label SCREEN_DATE = $0400 + 45
 

@@ -409,3 +409,19 @@ nop
    jsr dashboard_update
    end:
 }
+
+.macro PushXYStack()
+{
+   txa 
+   pha
+   tya
+   pha 
+}
+
+.macro PullXYStack()
+{
+   pla
+   tay
+   pla
+   tax 
+}
