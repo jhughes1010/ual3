@@ -12,13 +12,11 @@ start:
     SetBorderColor(0)
     SetScreenColor(4)
     ClearScreen()
-    //jsr set_color_memory
     PlotXY(12,4)
     OutputText(TITLE)
 
     PlotXY(15,23)
     OutputText(PRESSKEY)
-    //jsr set_color_memory
 
     jsr waitKey
 
