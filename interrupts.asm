@@ -15,11 +15,12 @@ irq:
 //-----raster interrupt code
 //-----------------------------------------------
 raster:
+    PushZP_0Stack()
     ldy #37
     lda COLOR_BAR
-    sta zp_1
+    sta zp_0
     lda COLOR_BAR+1
-    sta zp_1 + 1
+    sta zp_0 + 1
 
     lda $a2
     and #$40
@@ -34,13 +35,14 @@ raster:
     lda #$00
 
 write_color:
-    sta (zp_1),y
+    sta (zp_0),y
 
     dey
     bmi end_irq
     jmp line_loop
 
 end_irq:
+    PullZP_0Stack()
     pla
     tay
     pla

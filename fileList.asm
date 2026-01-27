@@ -10,6 +10,7 @@ FILE_DASHBOARD:     .text "DASH.BIN"
 
 
 TITLE: 
+  .byte 158
   .text "UAL FLIGHT TRACKER"
   .byte 0
 

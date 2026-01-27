@@ -425,3 +425,19 @@ nop
    pla
    tax 
 }
+
+.macro PushZP_0Stack()
+{
+   lda zp_0
+   pha
+   lda zp_0 + 1
+   pha
+}
+
+.macro PullZP_0Stack()
+{
+   pla
+   sta zp_0 + 1
+   pla
+   sta zp_0
+}

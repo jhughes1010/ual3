@@ -5,7 +5,6 @@
 BasicUpstart2(start)
 
 .encoding "petscii_upper"
-#import "constants.asm"
 
 start: 
     lda #$00
@@ -13,11 +12,14 @@ start:
     SetBorderColor(0)
     SetScreenColor(4)
     ClearScreen()
+    //jsr set_color_memory
     PlotXY(12,4)
     OutputText(TITLE)
 
     PlotXY(15,23)
     OutputText(PRESSKEY)
+    //jsr set_color_memory
+
     jsr waitKey
 
     //open comm port to get date and time from server
@@ -68,7 +70,8 @@ main:
     brk
 continue:
     jmp main
-
+    
+#import "constants.asm"
 #import "fileList.asm"
 #import "macro.asm"
 #import "subroutines.asm"

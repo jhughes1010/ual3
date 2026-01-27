@@ -256,3 +256,29 @@ clear_row:
     bne new_row
     rts 
 }
+
+set_color_memory:
+{ 
+    lda #$07
+    pha
+    //X and Y contain 999d
+    ldy #$e7
+    ldx #$04
+    lda #<SCREEN_COLOR_RAM + 256*3
+    sta zp_0
+    lda #>SCREEN_COLOR_RAM + 256*3
+    sta zp_0+1
+    pla
+
+
+fill_memory:
+    sta (zp_0),y
+    dey
+    bne fill_memory
+end:
+    dec zp_0+1
+    dex
+    bne fill_memory
+finish:
+    rts
+}
