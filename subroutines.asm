@@ -217,7 +217,7 @@ setSchColor:
 {
     ldx #$00
  loop:
-    lda #$05
+    lda #$07
     sta SCREEN_COLOR_RAM_SCH,x
     inx
     bne loop

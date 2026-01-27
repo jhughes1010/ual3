@@ -29,7 +29,7 @@ raster:
     lda FLAG
     bne alt
 
-    lda #$07
+    lda #$03
     jmp write_color
     alt:
     lda #$00
