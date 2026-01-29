@@ -47,6 +47,7 @@ start:
     //possible clear dashboard
     jsr init_irq
     jsr CLALL
+    //SetCIATOD($91,$59,$40)
 
 main:
     jsr new_day_check           //looks for 12:00am, INC DAY and sets the FLAG_DAY to prevent repeat increments

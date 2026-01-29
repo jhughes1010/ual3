@@ -19,11 +19,14 @@ new_day_check:
     lda CIA1_HOUR
     cmp #$12
     bne end
-    //.break
-    inc DAY
+    clc
+    sed
+    lda #$01
+    adc DAY
+    sta DAY
+    cld
     inc FLAG_DAY
-    //.break
-    //SetCIATOD($12,$59,$40)
+    jsr dashboard_update
     end:
     rts
 }
