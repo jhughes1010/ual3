@@ -61,6 +61,9 @@
 .label fn_7 = $88
 .label fn_8 = $8c
 
+//primary disk drive ID
+.label drive_main = $08
+
 //date locations on screen memory
 .label screenYear = $0402
 .label screenMonth = screenYear + 3

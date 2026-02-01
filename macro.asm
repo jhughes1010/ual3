@@ -56,7 +56,7 @@ done:
     jsr CHROUT
 }
 
-.macro LoadFile(file_number,file_name,file_name_length,load_address)
+.macro LoadFile(file_number,file_name,file_name_length,load_address, drive)
 {
    lda #file_name_length // File name size
    ldx #<file_name
@@ -66,7 +66,7 @@ done:
 
 
    lda #file_number // File number
-   ldx #9 // Device
+   ldx #drive // Device
    ldy #0 // Channel
    jsr SETLFS
 

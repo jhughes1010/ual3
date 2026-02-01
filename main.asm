@@ -28,7 +28,7 @@ start:
 
     PlotXY(12,12)
     OutputText(LOADSCH)
-    LoadFile(2,FILE_SCHEDULE,12,s_start)
+    LoadFile(2,FILE_SCHEDULE,12,s_start, drive_main)
 
     PlotXY(12,14)
     OutputText(LOADAIR)
@@ -40,7 +40,7 @@ start:
     ClearScreen()
 
     //switch to dashboard screen
-    LoadFile(4,FILE_DASHBOARD,8,$0400)
+    LoadFile(4,FILE_DASHBOARD,8,$0400, drive_main)
 
     //update flight details
     jsr dashboard_update

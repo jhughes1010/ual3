@@ -58,6 +58,8 @@ calendar_maintenance:
     bne end
     lda #$01
     sta DAY
+    jsr dashboard_update
+
     //lda MONTH
     clc
     sed
@@ -72,7 +74,7 @@ calendar_maintenance:
     bne end
     lda #$01
     sta MONTH
-    end:
+end:
     rts
 }
 
